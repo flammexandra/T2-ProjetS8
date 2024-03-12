@@ -1,6 +1,6 @@
-#define NUM_NODES 10
+#define NUM_NODES 10000
 #define NUM_NEIGHBORS 5
-#define NUM_CYCLE 1
+#define NUM_CYCLE 1000
 
 typedef struct {
     int id;
