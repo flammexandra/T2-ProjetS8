@@ -10,18 +10,19 @@
 //FONCTIONS POUR INITIALISER L'ÉCHANGE
 
 //chooseReceiverNode renvoi l'indice du noeud receveur
-int chooseReceiverNode(Descriptor* subsetList){
-    int idRec=0;
-    for (int i = 1; i < NUM_SUBSET; i++){
-        if (subsetList[i].id==-1){
-            int nodeIndex = subsetList[idRec].id;
-            return nodeIndex;
+int chooseReceiverNode(Descriptor* neighborsList,int* idRec){
+    for (int i = 1; i < NUM_NEIGHBORS; i++){
+        if (neighborsList[i].id==-1)
+            continue;
+        if (neighborsList[*idRec].id==-1){
+            *idRec=i;
+            continue;
         }
-        if (subsetList[i].time<subsetList[idRec].time){
-            idRec=i;
+        if (neighborsList[i].time<neighborsList[*idRec].time){
+            *idRec=i;
         }
     }
-    int nodeIndex = subsetList[idRec].id;
+    int nodeIndex = neighborsList[*idRec].id;
     return nodeIndex;
 }
 
@@ -35,14 +36,25 @@ int numberOfNeighbors(Node node) {
 }
 
 // initSubsetNeigbors initialise une sous liste de voisin subsetList du noeud node ainsi que l'emplacement de ces voisins selectionnés dans subsetListBool. 
-void initSubsetNeighbors(Node *node, bool* subsetListBool, Descriptor* subsetList, int numSubset) {
+void initSubsetNeighbors(Node *node, bool* subsetListBool, Descriptor* subsetList, int numSubset,int idnodeIndex2) {
     bool used[NUM_NEIGHBORS]; // Tableau pour garder une trace des noeuds déjà vus
     for (int i = 0; i < NUM_NEIGHBORS; i++) {
         // Initialisation de tous les éléments à false 
         used[i] = (node->neighbors[i].id==-1); //(si une place i est libre, used[i]=true pour ne pas envoyer une information vide)
     }
+
+    int tmp=0;
+
+    if (idnodeIndex2!=-1){
+        used[idnodeIndex2] = true; // Marquer le noeud comme utilisé
+        subsetListBool[idnodeIndex2]=true;
+        subsetList[0].id=node->neighbors[idnodeIndex2].id;
+        subsetList[0].time=node->neighbors[idnodeIndex2].time;
+        tmp=1;
+    }
     
-    for (int i = 0; i < numSubset; i++) {
+    
+    for (int i = tmp; i < numSubset; i++) {
         int rand_node;
         do {
             rand_node = rand() % NUM_NEIGHBORS;
@@ -57,27 +69,26 @@ void initSubsetNeighbors(Node *node, bool* subsetListBool, Descriptor* subsetLis
 }
 
 // setupNode1 initialise les paramètres du noeud qui initie l'échange
-void setupNode1(Node network[NUM_NODES],int nodeIndex1, Descriptor* subsetList1,bool* subsetListBool1){
+void setupNode1(Node network[NUM_NODES],int nodeIndex1, Descriptor* subsetList1,bool* subsetListBool1,int idnodeIndex2){
 
     int numNeighbors = numberOfNeighbors(network[nodeIndex1]);
 
     int numSubset = min(numNeighbors,NUM_SUBSET);
 
     // Détermination de la sous liste à envoyer :
-    initSubsetNeighbors(&network[nodeIndex1], subsetListBool1, subsetList1, numSubset);
+    initSubsetNeighbors(&network[nodeIndex1], subsetListBool1, subsetList1, numSubset, idnodeIndex2);
 
 }
 
 // setupNode2 initialise les paramètres du noeud qui reçoit l'échange
-void setupNode2(Node network[NUM_NODES],int* nodeIndex2, Descriptor* subsetList2,bool* subsetListBool2,Descriptor* subsetList1){ 
+void setupNode2(Node network[NUM_NODES],int nodeIndex2, Descriptor* subsetList2,bool* subsetListBool2,Descriptor* subsetList1){ 
     // Choix du noeuds receveur :
-    *nodeIndex2=chooseReceiverNode(subsetList1);
 
-    int numNeighbors = numberOfNeighbors(network[*nodeIndex2]);
+    int numNeighbors = numberOfNeighbors(network[nodeIndex2]);
 
     int numSubset = min(numNeighbors,NUM_SUBSET);
 
     // Détermination de la sous liste à envoyer :
-    initSubsetNeighbors(&network[*nodeIndex2],subsetListBool2,subsetList2,numSubset);
+    initSubsetNeighbors(&network[nodeIndex2],subsetListBool2,subsetList2,numSubset,-1);
 
 }

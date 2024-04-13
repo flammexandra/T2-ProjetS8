@@ -34,6 +34,8 @@ int main() {
     //printf("Traitement : \n");
     for (int c = 0; c < NUM_CYCLE; c++){
         for (int nodeIndex1 = 0; nodeIndex1 < NUM_NODES; nodeIndex1++){
+            int idnodeIndex2=0;
+            int nodeIndex2=chooseReceiverNode(network[nodeIndex1].neighbors,&idnodeIndex2);
 
             // Noeud 1 :
             // Initialisation des paramètres
@@ -48,14 +50,14 @@ int main() {
             }
             
             //memset(subsetList1,-1,NUM_SUBSET*sizeof(int));
-            setupNode1(network,nodeIndex1, subsetList1,subsetListBool1);
+            setupNode1(network,nodeIndex1, subsetList1,subsetListBool1,idnodeIndex2);
             //printf("\nListe de descripteur n°1 : \n");
             //printListDescriptor(subsetList1, NUM_SUBSET);
 
 
             //Noeud 2:
             // Initialisation des paramètres
-            int nodeIndex2; int numNeighbors2;
+            int numNeighbors2;
             bool* subsetListBool2=(bool*)malloc(NUM_NEIGHBORS * sizeof(bool));
             memset(subsetListBool2,false,NUM_NEIGHBORS*sizeof(bool));
             Descriptor* subsetList2=malloc(NUM_SUBSET * sizeof(Descriptor));
@@ -64,10 +66,11 @@ int main() {
                 subsetList2[i].time=-1;
             }
             //memset(subsetList2,-1,NUM_SUBSET*sizeof(int));
-            setupNode2(network,&nodeIndex2, subsetList2,subsetListBool2,subsetList1);
+            setupNode2(network,nodeIndex2, subsetList2,subsetListBool2,subsetList1);
 
             //printf("\nListe de descripteur n°2 : \n");
             //printListDescriptor(subsetList2, NUM_SUBSET);
+
 
             // Échange des vues:
             viewExchange(network,subsetList1, subsetList2, subsetListBool1, subsetListBool2,nodeIndex1, nodeIndex2, c);
