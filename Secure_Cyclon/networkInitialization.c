@@ -25,6 +25,10 @@ void initializeNeighbors(Node *node, int index, int* timestamp) {
         else{
             node->neighbors[i].id = rand_num; // Sinon il devient un nouveau voisin
             node->neighbors[i].time = timestamp[rand_num]; // Sinon il devient un nouveau voisin
+            node->neighbors[i].swappable = true;
+            node->neighbors[i].ownership=malloc(sizeof(struct Ownership));
+            node->neighbors[i].ownership->Sign_trans=rand_num;
+            node->neighbors[i].ownership->PubKey_rec=node->id;
             timestamp[rand_num]--;
         }
 

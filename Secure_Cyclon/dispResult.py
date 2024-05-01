@@ -22,6 +22,13 @@ def tracer_courbes(liste_de_valeurs, noms_fichiers):
     plt.show()
 
 if __name__ == "__main__":
+    noms_fichiers = ["result_100_5.txt"]  # Liste des noms de fichiers
+    valeurs = [lire_fichier(nom) for nom in noms_fichiers]  # Lire les valeurs de chaque fichier
+    tracer_courbes(valeurs, noms_fichiers)  # Tracer les courbes
+
+"""
+if __name__ == "__main__":
     noms_fichiers = ["result_10000_3.txt", "result_10000_5.txt", "result_10000_8.txt","result_10000_10.txt"]  # Liste des noms de fichiers
     valeurs = [lire_fichier(nom) for nom in noms_fichiers]  # Lire les valeurs de chaque fichier
     tracer_courbes(valeurs, noms_fichiers)  # Tracer les courbes
+"""

@@ -82,7 +82,6 @@ void setupNode1(Node network[NUM_NODES],int nodeIndex1, Descriptor* subsetList1,
 
 // setupNode2 initialise les paramètres du noeud qui reçoit l'échange
 void setupNode2(Node network[NUM_NODES],int nodeIndex2, Descriptor* subsetList2,bool* subsetListBool2,Descriptor* subsetList1){ 
-    // Choix du noeuds receveur :
 
     int numNeighbors = numberOfNeighbors(network[nodeIndex2]);
 

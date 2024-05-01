@@ -1,8 +1,8 @@
-#define NUM_NODES 1000
-#define NUM_NEIGHBORS 20
-#define NUM_CYCLE 500
-#define NUM_SUBSET 10
-#define NUM_MALICIOUS 20
+#define NUM_NODES 100
+#define NUM_NEIGHBORS 10
+#define NUM_CYCLE 1000
+#define NUM_SUBSET 5
+#define NUM_MALICIOUS 10
 
 
 typedef struct{

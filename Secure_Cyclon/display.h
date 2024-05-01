@@ -5,6 +5,7 @@
 
 void printNetwork(Node network[NUM_NODES]);
 void printList(int* list, int taille);
+void printListDescriptorSimple(Descriptor* list, int taille);
 void printListDescriptor(Descriptor* list, int taille);
 void printListBool( int taille, bool* listBool);
 void printListWithBool(int* list, int taille, bool* listBool);

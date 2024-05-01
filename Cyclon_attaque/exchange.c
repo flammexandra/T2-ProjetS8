@@ -108,25 +108,11 @@ void subsetListSend(Descriptor * list, int sender, int receiver, bool flagSender
         }
     }
 
-    else {
-        for (int i = 0; i < NUM_SUBSET; i++){
-            if (list[i].id==receiver){// si l'indice du receveur est dans la liste
-                list[i].id=-1;
-                list[i].time=-1;
-            } 
-        }
-    }
 }
 
 void viewInitialization(Descriptor* subsetList1, Descriptor* subsetList2,int nodeIndex1, int nodeIndex2, int c ){
-    if (c < 50){
-        subsetListSend(subsetList1,nodeIndex1,nodeIndex2, true,false,c);
-        subsetListSend(subsetList2,nodeIndex2,nodeIndex1, false,false,c);
-    }
-    else {
-        subsetListSend(subsetList1,nodeIndex1,nodeIndex2, true,true,c);
-        subsetListSend(subsetList2,nodeIndex2,nodeIndex1, false,true,c);
-    }
+    subsetListSend(subsetList1,nodeIndex1,nodeIndex2, true,(c > 50),c);
+    subsetListSend(subsetList2,nodeIndex2,nodeIndex1, false,(c > 50),c);
 }
 
 void viewExchange(Node network[NUM_NODES], Descriptor* subsetList1, Descriptor* subsetList2, bool* subsetListBool1, bool* subsetListBool2, int nodeIndex1, int nodeIndex2, int c){

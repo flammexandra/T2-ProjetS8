@@ -28,4 +28,4 @@ outcome.o: outcome.c outcome.h
 	$(CC) $(LDFLAGS) -c outcome.c
 
 clean:
-	rm -f main main.o display.o auxiliary.o exchange.o networkInitialization.o exchangeInitialization.o outcome.o
+	rm -f main main.o display.o auxiliary.o exchange.o networkInitialization.o exchangeInitialization.o outcome.o result*
